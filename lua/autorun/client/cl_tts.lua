@@ -73,4 +73,4 @@ net.Receive("tts", function()
     end
 end)
 
-MsgC(Color(255, 0, 255), "TTS Loaded! Made by Marshall_vak with help from Storm37000.")
+MsgC(Color(255, 0, 255), "TTS Loaded! Made by Marshall_vak")

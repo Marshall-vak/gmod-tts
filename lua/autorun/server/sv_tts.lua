@@ -61,6 +61,20 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 		end
 	end
 
+	//Max length of api 1024
+	if string.len(text) > 1024 then
+		if debug:GetBool() then
+			if not enable:GetBool() then
+				MsgC(Color( 255, 0, 255 ),"TTS cant handle that much text")
+			end
+		end
+
+		timer.Simple(0.1, function()
+			ply:SendLua([[chat.AddText( "TTS: Mesasge is too long!" )]])
+		end)
+		return
+	end
+
 	if not enable:GetBool() then return end
 
 	if debug:GetBool() then
