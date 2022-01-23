@@ -21,7 +21,7 @@ $$$$$$$$\$$$$$$$$\ $$$$$$\
    $$ |     $$ |  $$\   $$ |                                                                                                     
    $$ |     $$ |  \$$$$$$  |                                                                                                     
    \__|     \__|   \______/                                                                                                      
-   Made by Marshall_vak with help from Storm37000.
+   Made by Marshall_vak
 ]])
 
 util.AddNetworkString("tts")
@@ -32,7 +32,7 @@ local enable = CreateConVar( "tts_enable", 1, FCVAR_ARCHIVE, "Enables the tts.",
 local adminOnly = CreateConVar( "tts_admin_only", 0, FCVAR_ARCHIVE, "Is the tts admin only?", 0, 1 )
 local prefix = CreateConVar( "tts_prefix", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
 local toChat = CreateConVar( "tts_block_chat", 0, FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
-local debug = CreateConVar( "tts_debug", 0, FCVAR_ARCHIVE, "TTS debug:GetBool!")
+local debug = CreateConVar( "tts_debug", 0, FCVAR_ARCHIVE, "TTS debug")
 
 // I hope you like this Color( 255, 0, 255 )
 local function help()

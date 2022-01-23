@@ -3,8 +3,8 @@ require("sh_tts.lua")
 //CreateClientConVar( string name, string default, boolean shouldsave = true, boolean userinfo = false, string helptext, number min = nil, number max = nil )
 
 local enabled = CreateClientConVar( "tts_cl_enabled", 1, true, false, "Enable tts?", 0, 1)
-local global = CreateClientConVar( "tts_cl_global", 0, true, false, "Enable tts?", 0, 1)
-local debug = CreateClientConVar( "tts_cl_debug", 0, true, false, "Enable tts?", 0, 1)
+local global = CreateClientConVar( "tts_cl_global", 0, true, false, "Does the tts play globally?", 0, 1)
+local debug = CreateClientConVar( "tts_cl_debug", 0, true, false, "Enable debug?", 0, 1)
 
 // I hope you like this Color( 255, 0, 255 )
 local function help()
