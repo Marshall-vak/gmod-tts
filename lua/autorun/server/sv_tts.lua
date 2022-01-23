@@ -31,8 +31,26 @@ util.AddNetworkString("tts")
 local enable = CreateConVar( "tts_enable", 1, FCVAR_ARCHIVE, "Enables the tts.", 0, 1 )
 local adminOnly = CreateConVar( "tts_admin_only", 0, FCVAR_ARCHIVE, "Is the tts admin only?", 0, 1 )
 local prefix = CreateConVar( "tts_prefix", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
-local toChat = CreateConVar( "tts_to_chat", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
-local debug = CreateConVar( "tts_debug", "", FCVAR_ARCHIVE, "TTS debug:GetBool!")
+local toChat = CreateConVar( "tts_block_chat", 0, FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
+local debug = CreateConVar( "tts_debug", 0, FCVAR_ARCHIVE, "TTS debug:GetBool!")
+
+// I hope you like this Color( 255, 0, 255 )
+local function help()
+	MsgC(Color( 255, 0, 255 ),[[
+Moon Base Alpha TTS Help:
+---------------------------------- [ Server Convars ] --------------------------------
+[ tts_enable 	 | default: 1  | Enable the tts?    		 		     ]
+[ tts_admin_only | default: 0  | Is tts admin only? 			 	     ]
+[ tts_prefix     | default: "" | Does the tts have a prefix 			     ]
+[ tts_block_chat | default: 1  | If the tts has a prefix print the message to chat?  ]
+[ tts_debug   	 | default: 0  | Debug?						     ]
+---------------------------------- [ Client Convars ] --------------------------------
+[ tts_cl_enabled | default: 1  | Enable the tts client side?    		     ]
+[ tts_cl_global  | default: 0  | Play tts globaly?	          		     ]
+[ tts_cl_debug   | default: 0  | Debug?					             ]
+--------------------------------------------------------------------------------------
+]])
+end
 
 concommand.Add("tts", help)
 concommand.Add("tts_help", help)
@@ -93,7 +111,7 @@ local function addHook()
 	end
 end
 
-cvars.AddChangeCallback("tts_to_chat", function()
+cvars.AddChangeCallback("tts_block_chat", function()
 	if toChat:GetBool() && prefix:GetString() then
 		hook.Add( "OnPlayerChat", "tts_chat_block", OnPlayerChat)
 	else
