@@ -1,5 +1,3 @@
-require("sh_tts.lua")
-
 //yes I know the ascii is almost the whole file but thats the point lol
 MsgC(Color( 255, 0, 255 ),[[
 $$\      $$\                                  $$$$$$$\                                    $$$$$$\ $$\         $$\                
@@ -31,7 +29,6 @@ util.AddNetworkString("tts")
 local enable = CreateConVar( "tts_enable", 1, FCVAR_ARCHIVE, "Enables the tts.", 0, 1 )
 local adminOnly = CreateConVar( "tts_admin_only", 0, FCVAR_ARCHIVE, "Is the tts admin only?", 0, 1 )
 local prefix = CreateConVar( "tts_prefix", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
-local toChat = CreateConVar( "tts_block_chat", 0, FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
 local debug = CreateConVar( "tts_debug", 0, FCVAR_ARCHIVE, "TTS debug")
 
 // I hope you like this Color( 255, 0, 255 )
@@ -42,7 +39,6 @@ Moon Base Alpha TTS Help:
 [ tts_enable 	 | default: 1  | Enable the tts?    		 		     ]
 [ tts_admin_only | default: 0  | Is tts admin only? 			 	     ]
 [ tts_prefix     | default: "" | Does the tts have a prefix 			     ]
-[ tts_block_chat | default: 1  | If the tts has a prefix print the message to chat?  ]
 [ tts_debug   	 | default: 0  | Debug?						     ]
 ---------------------------------- [ Client Convars ] --------------------------------
 [ tts_cl_enabled | default: 1  | Enable the tts client side?    		     ]
@@ -99,30 +95,4 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 		net.WriteString(text)
 	net.Broadcast()
 
-end)
-
-local function addHook()
-	if toChat:GetBool() and prefix:GetString() and enable:GetBool() then
-		hook.Add( "OnPlayerChat", "tts_chat_block", function()
-			if prefix:GetString() and toChat:GetBool() and string.StartWith(text, prefix:GetString()) then
-				return false 
-			end
-		end)
-	end
-end
-
-cvars.AddChangeCallback("tts_block_chat", function()
-	if toChat:GetBool() && prefix:GetString() then
-		hook.Add( "OnPlayerChat", "tts_chat_block", OnPlayerChat)
-	else
-		hook.Remove( "OnPlayerChat", "tts_chat_block" )
-	end
-end)
-
-cvars.AddChangeCallback("enable", function()
-	if not enable:GetBool() then
-		hook.Remove( "OnPlayerChat", "tts_chat_block" )
-	else
-
-	end
 end)

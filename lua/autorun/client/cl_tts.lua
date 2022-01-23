@@ -1,5 +1,3 @@
-require("sh_tts.lua")
-
 //CreateClientConVar( string name, string default, boolean shouldsave = true, boolean userinfo = false, string helptext, number min = nil, number max = nil )
 
 local enabled = CreateClientConVar( "tts_cl_enabled", 1, true, false, "Enable tts?", 0, 1)
