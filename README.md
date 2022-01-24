@@ -7,9 +7,9 @@
  I'm not good at explaining this. If you can code you will get the whing below.
  
 ```
-net.Start("tts")		// Send a net message to the client tts.
-	net.WriteEntity(ply) 	// The entity the sound comes from. Not needed if global.
-	net.WriteString(text) 	// The text you want the tts to say.
-	net.WriteInt(global) 	// Whether or not the tts is global or not.
-net.Broadcast() 		// You can use net.Send() for finite controle over who hears the message
+net.Start("tts")		// Send a net message to the client tts.				  | 		  |
+	net.WriteEntity(ply) 	// The entity the sound comes from. Not needed if global.		  | entity	  | Not needed if global is true
+	net.WriteString(text) 	// The text you want the tts to say.					  | string	  | required
+	net.WriteBool(global) 	// Whether or not the tts is global or not.				  | true or false | required
+net.Broadcast() 		// You can use net.Send() for finite controle over who hears the message  |		  |
 ```
