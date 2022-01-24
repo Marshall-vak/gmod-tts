@@ -65,7 +65,7 @@ net.Receive("tts", function()
             
             else
             
-                MsgC(Color(255, 0, 255), "Attempted to play borked sound.")
+                MsgC(Color(255, 0, 255), "TTS: Attempted to play borked sound.")
             
             end
         end)

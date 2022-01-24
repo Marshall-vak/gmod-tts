@@ -8,6 +8,9 @@ $$ \$$$  $$ $$ /  $$ $$ /  $$ $$ |  $$ |      $$  __$$\ $$$$$$$ \$$$$$$\ $$$$$$$
 $$ |\$  /$$ $$ |  $$ $$ |  $$ $$ |  $$ |      $$ |  $$ $$  __$$ |\____$$\$$   ____|      $$ |  $$ $$ $$ |  $$ $$ |  $$ $$  __$$ |
 $$ | \_/ $$ \$$$$$$  \$$$$$$  $$ |  $$ |      $$$$$$$  \$$$$$$$ $$$$$$$  \$$$$$$$\       $$ |  $$ $$ $$$$$$$  $$ |  $$ \$$$$$$$ |
 \__|     \__|\______/ \______/\__|  \__|      \_______/ \_______\_______/ \_______|      \__|  \__\__$$  ____/\__|  \__|\_______|
+]])
+MsgC(Color( 255, 0, 255 ),[[
+
                                                                                                      $$ |                        
                                                                                                      $$ |                        
                                                                                                      \__|                        
@@ -15,11 +18,14 @@ $$$$$$$$\$$$$$$$$\ $$$$$$\
 \__$$  __\__$$  __$$  __$$\                                                                                                      
    $$ |     $$ |  $$ /  \__|                                                                                                     
    $$ |     $$ |  \$$$$$$\                                                                                                       
+]])
+MsgC(Color( 255, 0, 255 ),[[
    $$ |     $$ |   \____$$\                                                                                                      
    $$ |     $$ |  $$\   $$ |                                                                                                     
    $$ |     $$ |  \$$$$$$  |                                                                                                     
    \__|     \__|   \______/                                                                                                      
    Made by Marshall_vak
+
 ]])
 
 util.AddNetworkString("tts")
@@ -29,6 +35,7 @@ util.AddNetworkString("tts")
 local enable = CreateConVar( "tts_enable", 1, FCVAR_ARCHIVE, "Enables the tts.", 0, 1 )
 local adminOnly = CreateConVar( "tts_admin_only", 0, FCVAR_ARCHIVE, "Is the tts admin only?", 0, 1 )
 local prefix = CreateConVar( "tts_prefix", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
+local sayName = CreateConVar( "tts_say_name", 0, FCVAR_ARCHIVE, "Include the player name in the tts?")
 local debug = CreateConVar( "tts_debug", 0, FCVAR_ARCHIVE, "TTS debug")
 
 // I hope you like this Color( 255, 0, 255 )
@@ -39,6 +46,7 @@ Moon Base Alpha TTS Help:
 [ tts_enable 	 | default: 1  | Enable the tts?    		 		     ]
 [ tts_admin_only | default: 0  | Is tts admin only? 			 	     ]
 [ tts_prefix     | default: "" | Does the tts have a prefix 			     ]
+[ tts_say_name   | default: 0  | Say the player name in tts?			     ]
 [ tts_debug   	 | default: 0  | Debug?						     ]
 ---------------------------------- [ Client Convars ] --------------------------------
 [ tts_cl_enabled | default: 1  | Enable the tts client side?    		     ]
@@ -99,6 +107,13 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 
 	if prefix:GetString() then
         text = string.sub( text, #prefix:GetString() + 1)
+		if debug:GetBool() then
+			MsgC(Color( 255, 0, 255 ),"TTS Made new string: " .. text .. ".")
+		end
+	end
+
+	if sayName:GetBool() then
+        text = ply:Nick() .. "Said. " .. text
 		if debug:GetBool() then
 			MsgC(Color( 255, 0, 255 ),"TTS Made new string: " .. text .. ".")
 		end
