@@ -25,6 +25,7 @@ net.Receive("tts", function()
 
     local ply = net.ReadEntity()
     local text = net.ReadString()
+    local global = net.ReadInt()
 
     if global:GetBool() then
         
