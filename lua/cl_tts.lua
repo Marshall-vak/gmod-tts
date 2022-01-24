@@ -1,16 +1,17 @@
 //CreateClientConVar( string name, string default, boolean shouldsave = true, boolean userinfo = false, string helptext, number min = nil, number max = nil )
 
-local enabled = CreateClientConVar( "tts_cl_enabled", 1, true, false, "Enable tts?", 0, 1)
-local global = CreateClientConVar( "tts_cl_global", 0, true, false, "Does the tts play globally?", 0, 1)
-local debug = CreateClientConVar( "tts_cl_debug", 0, true, false, "Enable debug?", 0, 1)
+local enabled = CreateClientConVar( "tts_cl_enabled", 1, true, false, "Enable tts? (can be overwritten by the server)", 0, 1)
+local global = CreateClientConVar( "tts_cl_global", 0, true, false, "Does the tts play globally? (can be overwritten by the server)", 0, 1)
+//egg
+local debug = CreateClientConVar( "tts_cl_debug", 0, true, false, "Enable pink console?", 0, 1)
 
 // I hope you like this Color( 255, 0, 255 )
 local function help()
 	MsgC(Color( 255, 0, 255 ),[[
 Moon Base Alpha TTS Help:
 ---------------------------------- [ Client Convars ] --------------------------------
-[ tts_cl_enabled | default: 1  | Enable the tts client side?    		     ]
-[ tts_cl_global  | default: 0  | Play tts globaly?	          		     ]
+[ tts_cl_enabled | default: 1  | Enable the tts? (can be overwritten by the server)  ]
+[ tts_cl_global  | default: 0  | Play tts globaly? (can be overwritten by the server)]
 [ tts_cl_debug   | default: 0  | Debug?					             ]
 --------------------------------------------------------------------------------------
 ]])
@@ -19,15 +20,21 @@ end
 concommand.Add("tts", help)
 concommand.Add("tts_help", help)
 
+hook.Add( "InitPostEntity", "tts_startup", function()
+    concommand.Remove("tts_cl_enabled")
+    hook.Remove( "InitPostEntity", "tts_startup")
+end)
 
 net.Receive("tts", function()
-    if not enabled:GetBool() then return end
+    if not GetConVar("tts_allow_disable"):GetBool() then
+        if not enabled:GetBool() then return end
+    end
 
     local ply = net.ReadEntity()
     local text = net.ReadString()
     local global = net.ReadInt()
 
-    if global:GetBool() then
+    if global:GetBool() or global then
         
         if debug then 
             MsgC(Color(255, 0, 255), "Playing sound globally.")

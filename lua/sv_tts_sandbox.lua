@@ -63,7 +63,7 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 	net.Start("tts")
 		net.WriteEntity(ply)
 		net.WriteString(text)
-		net.WriteInt(global)
+		net.WriteBool(global)
 	net.Broadcast()
 
 end)

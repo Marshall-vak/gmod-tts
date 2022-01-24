@@ -59,6 +59,7 @@ local adminOnly = CreateConVar( "tts_admin_only", 0, FCVAR_ARCHIVE, "Is the tts 
 local prefix = CreateConVar( "tts_prefix", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
 local sayName = CreateConVar( "tts_say_name", 0, FCVAR_ARCHIVE, "Include the player name in the tts?")
 local specDm = CreateConVar( "tts_specdm", 1, FCVAR_ARCHIVE, "Enable specDm support? (If you dont know what specDm is then just ignore it)")
+local allowDisable = CreateConVar( "tts_allow_disable", 1, FCVAR_ARCHIVE, "Should clients be able to disable the tts?")
 local debug = CreateConVar( "tts_debug", 0, FCVAR_ARCHIVE, "TTS debug")
 
 // I hope you like this Color( 255, 0, 255 )
@@ -66,16 +67,17 @@ local function help()
 	MsgC(Color( 255, 0, 255 ),[[
 Moon Base Alpha TTS Help:
 ---------------------------------- [ Server Convars ] --------------------------------
-[ tts_enable 	 | default: 1  | Enable the tts?    		 		     ]
-[ tts_admin_only | default: 0  | Is tts admin only? 			 	     ]
-[ tts_prefix     | default: "" | Does the tts have a prefix 			     ]
-[ tts_say_name   | default: 0  | Say the player name in tts?			     ]
-[ tts_specdm     | default: 1  | Enable ttt specdm support?             ]
-[ tts_debug   	 | default: 0  | Debug?						     ]
+[ tts_enable 	     | default: 1  | Enable the tts?    		 		     ]
+[ tts_admin_only     | default: 0  | Is tts admin only? 			 	     ]
+[ tts_prefix         | default: "" | Does the tts have a prefix 			     ]
+[ tts_say_name       | default: 0  | Say the player name in tts?			     ]
+[ tts_specdm         | default: 1  | Enable ttt specdm support?             ]
+[ tts_allow_disable  | default: 1  | Should the client be allowed to disable the tts ]
+[ tts_debug   	     | default: 0  | Debug?						     ]
 ---------------------------------- [ Client Convars ] --------------------------------
-[ tts_cl_enabled | default: 1  | Enable the tts client side?    		     ]
-[ tts_cl_global  | default: 0  | Play tts globaly?	          		     ]
-[ tts_cl_debug   | default: 0  | Debug?					             ]
+[ tts_cl_enabled     | default: 1  | Enable the tts client side?    		     ]
+[ tts_cl_global      | default: 0  | Play tts globaly?	          		     ]
+[ tts_cl_debug       | default: 0  | Debug?					             ]
 --------------------------------------------------------------------------------------
 ]])
 end
