@@ -1,3 +1,14 @@
+//debug
+local debug = CreateConVar( "tts_debug", 0, FCVAR_ARCHIVE, "TTS debug")
+
+//for copy pasta
+/*
+if debug:GetBool() then 
+    MsgC(Color( 255, 0, 255 ),"")
+end
+*/
+
+//send client file to clients on join
 AddCSLuaFile("cl_tts.lua")
 
 //yes I know the ascii is almost the whole file but thats the point lol
@@ -30,12 +41,17 @@ MsgC(Color( 255, 0, 255 ),[[
 
 ]])
 
+//make life easier
 function setContains(set, key)
+    if debug:GetBool() then 
+        MsgC(Color( 255, 0, 255 ),"setContains function called set: " .. set .. " key: " .. key)
+    end
+
     return set[key] ~= nil
 ends
 
-local support = "sandbox"
-
+//only 4 supported gamemodes at this time
+local support
 local supportedGamemodes = {
     "sandbox",
     "prophunt",
@@ -43,26 +59,39 @@ local supportedGamemodes = {
     "murder"
 }
 
+//if the game mode is not supported then set as sandbox
 if supportedGamemodes[gamemode.Get()] then 
+    if debug:GetBool() then 
+        MsgC(Color( 255, 0, 255 ),"support set to " .. gamemode.Get())
+    end
+
     support = gamemode.Get()
+else
+    if debug:GetBool() then 
+        MsgC(Color( 255, 0, 255 ),"gamemode not supported continuing with sandbox")
+    end
+
+    support = "sandbox"
 end
 
-MsgC(Color( 255, 0, 255 ),"Starting TTS with " .. support .. " support!"
+MsgC(Color( 255, 0, 255 ),"Starting TTS with " .. support .. " support!")
 include("sv_tts_" .. support .. ".lua")
 
+//create tts net
 util.AddNetworkString("tts")
 
+//https://wiki.facepunch.com/gmod/Global.CreateConVar
 //CreateConVar( string name, string value, number flags = FCVAR_NONE, string helptext, number min = nil, number max = nil )
 
+//create  global convars
 local enable = CreateConVar( "tts_enable", 1, FCVAR_ARCHIVE, "Enables the tts.", 0, 1 )
 local adminOnly = CreateConVar( "tts_admin_only", 0, FCVAR_ARCHIVE, "Is the tts admin only?", 0, 1 )
 local prefix = CreateConVar( "tts_prefix", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
 local sayName = CreateConVar( "tts_say_name", 0, FCVAR_ARCHIVE, "Include the player name in the tts?")
 local specDm = CreateConVar( "tts_specdm", 1, FCVAR_ARCHIVE, "Enable specDm support? (If you dont know what specDm is then just ignore it)")
 local allowDisable = CreateConVar( "tts_allow_disable", 1, FCVAR_ARCHIVE, "Should clients be able to disable the tts?")
-local debug = CreateConVar( "tts_debug", 0, FCVAR_ARCHIVE, "TTS debug")
 
-// I hope you like this Color( 255, 0, 255 )
+// Create help command. I hope you like this Color( 255, 0, 255 )
 local function help()
 	MsgC(Color( 255, 0, 255 ),[[
 Moon Base Alpha TTS Help:

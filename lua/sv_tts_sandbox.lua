@@ -1,8 +1,11 @@
 //Lots of debug :)
+if GetConVar("tts_debug"):GetBool() then
+	MsgC(Color( 255, 0, 255 ),"Loaded sv_tts_sandbox.lua")
+end
 
 hook.Add("PlayerSay", "mba_tts", function(ply, text)
 
-	if debug:GetBool() then
+	if GetConVar("tts_debug"):GetBool() then
 		if not enable:GetBool() then
 			MsgC(Color( 255, 0, 255 ),"TTS is not enabled")
 		end
@@ -10,7 +13,7 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 
 	//Max length of api 1024
 	if string.len(text) > 1024 then
-		if debug:GetBool() then
+		if GetConVar("tts_debug"):GetBool() then
 			if not enable:GetBool() then
 				MsgC(Color( 255, 0, 255 ),"TTS cant handle that much text")
 			end
@@ -24,7 +27,7 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 
 	if not enable:GetBool() then return end
 
-	if debug:GetBool() then
+	if GetConVar("tts_debug"):GetBool() then
 		if adminOnly:GetBool() and not ply:IsAdmin() then
 			MsgC(Color( 255, 0, 255 ),"TTS is admin only and ply " .. ply:Nick() .. " is not admin.")
 		end
@@ -32,7 +35,7 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 
 	if adminOnly:GetBool() and not ply:IsAdmin() then return end
 
-	if debug:GetBool() then
+	if GetConVar("tts_debug"):GetBool() then
 		if prefix:GetString() and not string.StartWith(text, prefix:GetString()) then
 			MsgC(Color( 255, 0, 255 ),"TTS has a prefix and the text [" .. text .. "] does not start with it.")
 		end
@@ -40,20 +43,20 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 
 	if prefix:GetString() and not string.StartWith(text, prefix:GetString()) then return end
 
-	if debug:GetBool() then
+	if GetConVar("tts_debug"):GetBool() then
 		MsgC(Color( 255, 0, 255 ),"Sending net message: ent: " .. ply:Nick() .. " text: " .. text)
 	end
 
 	if prefix:GetString() then
         text = string.sub( text, #prefix:GetString() + 1)
-		if debug:GetBool() then
+		if GetConVar("tts_debug"):GetBool() then
 			MsgC(Color( 255, 0, 255 ),"TTS Made new string: " .. text .. ".")
 		end
 	end
 
 	if sayName:GetBool() then
         text = ply:Nick() .. "Said. " .. text
-		if debug:GetBool() then
+		if GetConVar("tts_debug"):GetBool() then
 			MsgC(Color( 255, 0, 255 ),"TTS Made new string: " .. text .. ".")
 		end
 	end

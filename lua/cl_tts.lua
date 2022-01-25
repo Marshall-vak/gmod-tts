@@ -5,7 +5,7 @@ local global = CreateClientConVar( "tts_cl_global", 0, true, false, "Does the tt
 //egg
 local debug = CreateClientConVar( "tts_cl_debug", 0, true, false, "Enable pink console?", 0, 1)
 
-// I hope you like this Color( 255, 0, 255 )
+// Create client help command. I hope you like this Color( 255, 0, 255 )
 local function help()
 	MsgC(Color( 255, 0, 255 ),[[
 Moon Base Alpha TTS Help:
@@ -21,7 +21,14 @@ concommand.Add("tts", help)
 concommand.Add("tts_help", help)
 
 hook.Add( "InitPostEntity", "tts_startup", function()
-    concommand.Remove("tts_cl_enabled")
+    if not GetConVar("tts_allow_disable"):GetBool() then
+        if debug:GetBool() then 
+            MsgC(Color( 255, 0, 255 ),"tts_allow_disable is enabled server side removing cl_enable")
+        end
+
+        concommand.Remove("tts_cl_enabled")
+    end
+
     hook.Remove( "InitPostEntity", "tts_startup")
 end)
 
@@ -33,6 +40,10 @@ net.Receive("tts", function()
     local ply = net.ReadEntity()
     local text = net.ReadString()
     local global = net.ReadInt()
+
+    if debug:GetBool() then 
+        MsgC(Color( 255, 0, 255 ),"net recieved! ply: " .. ply:Nick() .. " txt: " .. txt .. " global: " .. global)
+    end
 
     if global:GetBool() or global then
         
