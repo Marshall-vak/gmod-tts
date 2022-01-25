@@ -48,33 +48,37 @@ function setContains(set, key)
     end
 
     return set[key] ~= nil
-ends
+end
+
+if debug:GetBool() then 
+    MsgC(Color( 255, 0, 255 ),"TTS: current gamemode is: " .. engine.ActiveGamemode())
+end
 
 //only 4 supported gamemodes at this time
 local support
 local supportedGamemodes = {
-    "sandbox",
-    "prophunt",
-    "ttt",
-    "murder"
+    sandbox = true,
+    prophunt = true,
+    terrortown = true,
+    murder = true
 }
 
 //if the game mode is not supported then set as sandbox
-if supportedGamemodes[gamemode.Get()] then 
+if supportedGamemodes[engine.ActiveGamemode()] then 
     if debug:GetBool() then 
-        MsgC(Color( 255, 0, 255 ),"support set to " .. gamemode.Get())
+        MsgC(Color( 255, 0, 255 ),"support set to " .. engine.ActiveGamemode() .. "\n")
     end
 
-    support = gamemode.Get()
+    support = engine.ActiveGamemode()
 else
     if debug:GetBool() then 
-        MsgC(Color( 255, 0, 255 ),"gamemode not supported continuing with sandbox")
+        MsgC(Color( 255, 0, 255 ),"gamemode not supported continuing with sandbox\n")
     end
 
     support = "sandbox"
 end
 
-MsgC(Color( 255, 0, 255 ),"Starting TTS with " .. support .. " support!")
+MsgC(Color( 255, 0, 255 ),"Starting TTS with " .. support .. " support!\n")
 include("sv_tts_" .. support .. ".lua")
 
 //create tts net
