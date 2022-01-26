@@ -93,6 +93,7 @@ local adminOnly = CreateConVar( "tts_admin_only", 0, FCVAR_ARCHIVE, "Is the tts 
 local prefix = CreateConVar( "tts_prefix", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
 local sayName = CreateConVar( "tts_say_name", 0, FCVAR_ARCHIVE, "Include the player name in the tts?")
 local specDm = CreateConVar( "tts_specdm", 1, FCVAR_ARCHIVE, "Enable specDm support? (If you dont know what specDm is then just ignore it)")
+local specDm = CreateConVar( "tts_birds_eye_view", 1, FCVAR_ARCHIVE, "Enable birds eye view support? (If you dont know what specDm is then just ignore it)")
 local allowDisable = CreateConVar( "tts_allow_disable", 1, FCVAR_ARCHIVE, "Should clients be able to disable the tts?")
 
 // Create help command. I hope you like this Color( 255, 0, 255 )
