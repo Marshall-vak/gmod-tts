@@ -6,36 +6,36 @@ end
 function say(ply, text, table)
 	//debug
 	if GetConVar("tts_debug"):GetBool() then
-		if adminOnly:GetBool() and not ply:IsAdmin() then
+		if GetConVar("tts_admin_only"):GetBool() and not ply:IsAdmin() then
 			MsgC(Color( 255, 0, 255 ),"TTS is admin only and ply " .. ply:Nick() .. " is not admin.")
 		end
 	end
 
 	//if tts is admin only and ply is not admin return
-	if adminOnly:GetBool() and not ply:IsAdmin() then return end
+	if GetConVar("tts_admin_only"):GetBool() and not ply:IsAdmin() then return end
 
 	//debug
 	if GetConVar("tts_debug"):GetBool() then
-		if not table and prefix:GetString() and not string.StartWith(text, prefix:GetString()) or table and prefix:GetString() and not string.StartWith(text[1], prefix:GetString()) then
+		if not table and GetConVar("tts_prefix"):GetString() and not string.StartWith(text, GetConVar("tts_prefix"):GetString()) or table and GetConVar("tts_prefix"):GetString() and not string.StartWith(text[1], GetConVar("tts_prefix"):GetString()) then
 			MsgC(Color( 255, 0, 255 ),"TTS has a prefix and the text [" .. text .. "] does not start with it.")
 		end
 	end
 
 	//if there is a prefix and the text does not start with it, return
-	if not table and prefix:GetString() and not string.StartWith(text, prefix:GetString()) then return end
-	if table and prefix:GetString() and not string.StartWith(text[1], prefix:GetString()) then return end
+	if not table and GetConVar("tts_prefix"):GetString() and not string.StartWith(text, GetConVar("tts_prefix"):GetString()) then return end
+	if table and GetConVar("tts_prefix"):GetString() and not string.StartWith(text[1], GetConVar("tts_prefix"):GetString()) then return end
 
 	//debug
 	if GetConVar("tts_debug"):GetBool() then
 		MsgC(Color( 255, 0, 255 ),"Sending net message: ent: " .. ply:Nick() .. " text: " .. text)
 	end
 
-	if prefix:GetString() then
+	if GetConVar("tts_prefix"):GetString() then
 		//remove prefix from text
 		if not table then
-        	text = string.sub( text, #prefix:GetString() + 1)
+        	text = string.sub( text, #GetConVar("tts_prefix"):GetString() + 1)
 		else
-			text[1] = string.sub( text[1], #prefix:GetString() + 1)
+			text[1] = string.sub( text[1], #GetConVar("tts_prefix"):GetString() + 1)
 		end
 
 		//debug
@@ -44,7 +44,7 @@ function say(ply, text, table)
 		end
 	end
 
-	if sayName:GetBool() then
+	if GetConVar("tts_say_name"):GetBool() then
 		//add name to text ex: "PlayerName said: Text"
 		if not table then
         	text = ply:Nick() .. "Said. " .. text
@@ -105,11 +105,11 @@ end
 hook.Add("PlayerSay", "mba_tts", function(ply, text)
 
 	//if tts is not enabled return
-	if not enable:GetBool() then return end
+	if not GetConVar("tts_enable"):GetBool() then return end
 
 	//debug
 	if GetConVar("tts_debug"):GetBool() then
-		if not enable:GetBool() then
+		if not GetConVar("tts_enable"):GetBool() then
 			MsgC(Color( 255, 0, 255 ),"TTS is not enabled")
 		end
 	end
@@ -133,7 +133,7 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 		end
 
 		if GetConVar("tts_debug"):GetBool() then
-			if not enable:GetBool() then
+			if not GetConVar("tts_enable"):GetBool() then
 				MsgC(Color( 255, 0, 255 ),"TTS split message into " .. #t .. " parts.\n")
 				MsgC(Color( 255, 0, 255 ),"TTS " .. t .. "\n")
 			end
@@ -144,7 +144,7 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 
 	if string.len(text) > 1024 then
 		if GetConVar("tts_debug"):GetBool() then
-			if not enable:GetBool() then
+			if not GetConVar("tts_enable"):GetBool() then
 				MsgC(Color( 255, 0, 255 ),"TTS cant handle that much text")
 			end
 		end
