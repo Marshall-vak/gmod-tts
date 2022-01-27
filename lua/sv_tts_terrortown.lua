@@ -73,6 +73,9 @@ function say(ply, text, table)
             //if recieving player is alive but sending player is not the return end
             if v:Alive() and not ply:Alive() then return end
 
+			//if sending player is a spectator and recieving player is not a spectator return end
+			if ply:Team() == TEAM_SPECTATOR and not v:Team() == TEAM_SPECTATOR then return end
+
             if GetConVar("tts_specdm"):GetBool() then
                 //if sending player is a ghost but the recieving player is not return end
                 if ply:IsGhost() and not v:IsGhost() then return end
