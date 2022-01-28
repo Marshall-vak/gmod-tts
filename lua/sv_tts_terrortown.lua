@@ -1,13 +1,13 @@
 //Lots of debug :)
 if GetConVar("tts_debug"):GetBool() then
-	MsgC(Color( 255, 0, 255 ),"Loaded sv_tts_sandbox.lua")
+	MsgC(Color( 255, 0, 255 ),"Loaded sv_tts_sandbox.lua\n")
 end
 
 function say(ply, text, table)
 	//debug
 	if GetConVar("tts_debug"):GetBool() then
 		if GetConVar("tts_admin_only"):GetBool() and not ply:IsAdmin() then
-			MsgC(Color( 255, 0, 255 ),"TTS is admin only and ply " .. ply:Nick() .. " is not admin.")
+			MsgC(Color( 255, 0, 255 ),"TTS is admin only and ply " .. ply:Nick() .. " is not admin.\n")
 		end
 	end
 
@@ -17,7 +17,7 @@ function say(ply, text, table)
 	//debug
 	if GetConVar("tts_debug"):GetBool() then
 		if not table and GetConVar("tts_prefix"):GetString() and not string.StartWith(text, GetConVar("tts_prefix"):GetString()) or table and GetConVar("tts_prefix"):GetString() and not string.StartWith(text[1], GetConVar("tts_prefix"):GetString()) then
-			MsgC(Color( 255, 0, 255 ),"TTS has a prefix and the text [" .. text .. "] does not start with it.")
+			MsgC(Color( 255, 0, 255 ),"TTS has a prefix and the text [" .. text .. "] does not start with it.\n")
 		end
 	end
 
@@ -27,7 +27,7 @@ function say(ply, text, table)
 
 	//debug
 	if GetConVar("tts_debug"):GetBool() then
-		MsgC(Color( 255, 0, 255 ),"Sending net message: ent: " .. ply:Nick() .. " text: " .. text)
+		MsgC(Color( 255, 0, 255 ),"Sending net message: ent: " .. ply:Nick() .. " text: " .. text .. "\n")
 	end
 
 	if GetConVar("tts_prefix"):GetString() then
@@ -40,7 +40,7 @@ function say(ply, text, table)
 
 		//debug
 		if GetConVar("tts_debug"):GetBool() then
-			MsgC(Color( 255, 0, 255 ),"TTS Made new string: " .. text .. ".")
+			MsgC(Color( 255, 0, 255 ),"TTS Made new string: " .. text .. ".\n")
 		end
 	end
 
@@ -57,21 +57,64 @@ function say(ply, text, table)
 
 		//debug
 		if GetConVar("tts_debug"):GetBool() then
-			MsgC(Color( 255, 0, 255 ),"TTS Made new string: " .. text .. ".")
+			MsgC(Color( 255, 0, 255 ),"TTS Made new string: " .. text .. ".\n")
 		end
 	end
 
 	local global = 0
+
+	local TEAM_SPECTATOR = 1002
 
     for k, v in ipairs(player.GetAll()) do
 
         //if recieving player is dead return end
 		if not v:IsValid() then return end
 
+		if GetConVar("tts_debug"):GetBool() then
+			if GetConVar("tts_specdm"):GetBool() then
+				if v:IsGhost() then
+					MsgC(Color( 0, 255, 0 ),"Player " .. v:Nick() .. " is a ghost.\n")
+				else
+					MsgC(Color( 255, 0, 0 ),"Player " .. v:Nick() .. " is not a ghost.\n")
+				end
+			else
+				MsgC(Color( 255, 0, 255 ),"TTS Specdm support is not enabled\n")
+			end
+
+			if GetConVar("tts_birds_eye_view"):GetBool() then
+				if v:IsBirdView() then 
+					MsgC(Color( 0, 255, 0 ),"Player " .. v:Nick() .. " is a bird.\n")
+				else
+					MsgC(Color( 255, 0, 0 ),"Player " .. v:Nick() .. " is not a bird.\n")
+				end
+			else
+				MsgC(Color( 255, 0, 255 ),"TTS birds eye view support is now enabled\n")
+			end
+
+			if v:Team() == TEAM_SPECTATOR then
+				MsgC(Color( 0, 255, 0 ),"Player " .. v:Nick() .. " is a spectator.\n")
+			else
+				MsgC(Color( 255, 0, 0 ),"Player " .. v:Nick() .. " is not a spectator. They are a " .. v:Team() .. "\n")
+			end
+
+			if v:Alive() then
+				MsgC(Color( 0, 255, 0 ),"Player " .. v:Nick() .. " is alive.\n")
+			else
+				MsgC(Color( 255, 0, 0 ),"Player " .. v:Nick() .. " is dead.\n")
+			end
+		end
+
 		//if the round is active 
         if GetRoundState() == ROUND_ACTIVE then
+			//add more debug
+			if GetConVar("tts_debug"):GetBool() then
+				MsgC(Color( 0, 255, 0 ),"TTS Round is active.\n")
+			else 
+				MsgC(Color( 255, 0, 0 ),"TTS Round is active.\n")
+			end
+
             //if recieving player is alive but sending player is not the return end
-            if v:Alive() and not ply:Alive() then return end
+            if not ply:Alive() and v:Alive() then return end
 
 			//if sending player is a spectator and recieving player is not a spectator return end
 			if ply:Team() == TEAM_SPECTATOR and not v:Team() == TEAM_SPECTATOR then return end
@@ -83,14 +126,14 @@ function say(ply, text, table)
 
             if GetConVar("tts_birds_eye_view"):GetBool() then
                 //if sending player is a ghost but the recieving player is not return end
-                if ply:IsBirdView() and not v:IsBirdView() then return end
+                if ply:IsBirdView() and not ( v:IsBirdView() or not v:Team() == TEAM_SPECTATOR ) then return end
             end
 
         end
 
 		//add more debug
 		if GetConVar("tts_debug"):GetBool() then
-			MsgC(Color( 255, 0, 255 ),"TTS Sending to: " .. v:Nick() .. " text: " .. text)
+			MsgC(Color( 255, 0, 255 ),"TTS Sending to: " .. v:Nick() .. " text: " .. text .. "\n")
 		end
 
 		//Send the message to the player
@@ -110,7 +153,7 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 	//debug
 	if GetConVar("tts_debug"):GetBool() then
 		if not GetConVar("tts_enable"):GetBool() then
-			MsgC(Color( 255, 0, 255 ),"TTS is not enabled")
+			MsgC(Color( 255, 0, 255 ),"TTS is not enabled\n")
 		end
 	end
 
@@ -145,7 +188,7 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
 	if string.len(text) > 1024 then
 		if GetConVar("tts_debug"):GetBool() then
 			if not GetConVar("tts_enable"):GetBool() then
-				MsgC(Color( 255, 0, 255 ),"TTS cant handle that much text")
+				MsgC(Color( 21, 255, 0),"TTS cant handle that much text\n")
 			end
 		end
 

@@ -8,9 +8,6 @@ if debug:GetBool() then
 end
 */
 
-//send client file to clients on join
-AddCSLuaFile("cl_tts.lua")
-
 //yes I know the ascii is almost the whole file but thats the point lol
 MsgC(Color( 255, 0, 255 ),[[
 $$\      $$\                                  $$$$$$$\                                    $$$$$$\ $$\         $$\                
@@ -44,14 +41,14 @@ MsgC(Color( 255, 0, 255 ),[[
 //make life easier
 function setContains(set, key)
     if debug:GetBool() then 
-        MsgC(Color( 255, 0, 255 ),"setContains function called set: " .. set .. " key: " .. key)
+        MsgC(Color( 255, 0, 255 ),"setContains function called set: " .. set .. " key: " .. key .. "\n")
     end
 
     return set[key] ~= nil
 end
 
 if debug:GetBool() then 
-    MsgC(Color( 255, 0, 255 ),"TTS: current gamemode is: " .. engine.ActiveGamemode())
+    MsgC(Color( 255, 0, 255 ),"TTS: current gamemode is: " .. engine.ActiveGamemode() .. "\n")
 end
 
 //only 4 supported gamemodes at this time
@@ -92,8 +89,8 @@ local enable = CreateConVar( "tts_enable", 1, FCVAR_ARCHIVE, "Enables the tts.",
 local adminOnly = CreateConVar( "tts_admin_only", 0, FCVAR_ARCHIVE, "Is the tts admin only?", 0, 1 )
 local prefix = CreateConVar( "tts_prefix", "", FCVAR_ARCHIVE, "TTS prefix leave blank or '' to disable. I recommend '>'")
 local sayName = CreateConVar( "tts_say_name", 0, FCVAR_ARCHIVE, "Include the player name in the tts?")
-local specDm = CreateConVar( "tts_specdm", 1, FCVAR_ARCHIVE, "Enable specDm support? (If you dont know what specDm is then just ignore it)")
-local specDm = CreateConVar( "tts_birds_eye_view", 1, FCVAR_ARCHIVE, "Enable birds eye view support? (If you dont know what specDm is then just ignore it)")
+local specDm = CreateConVar( "tts_specdm", 0, FCVAR_ARCHIVE, "Enable specDm support? (If you dont know what specDm is then just ignore it)")
+local specDm = CreateConVar( "tts_birds_eye_view", 0, FCVAR_ARCHIVE, "Enable birds eye view support? (If you dont know what specDm is then just ignore it)")
 local allowDisable = CreateConVar( "tts_allow_disable", 1, FCVAR_ARCHIVE, "Should clients be able to disable the tts?")
 
 // Create help command. I hope you like this Color( 255, 0, 255 )
