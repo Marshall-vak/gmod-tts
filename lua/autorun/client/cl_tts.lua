@@ -47,6 +47,8 @@ net.Receive("tts", function()
                 local value = math.random(math.huge)
                 hook.Add("Think", "setTTSpos" .. value, function()
                     if station:GetState() == 1 then
+                        if not IsValid( ply ) then return end
+                        
                         station:SetPos( ply:GetPos() )
 
                         if debug:GetBool() then
