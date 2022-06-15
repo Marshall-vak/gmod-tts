@@ -2,7 +2,7 @@ if SERVER then
 	if GetConVar("tts_debug"):GetBool() then MsgC(Color( 255, 0, 255 ),"Loaded tts/gamemodes/" .. engine.ActiveGamemode() .. ".lua\n") end
 
 	//if the server says its ok then send it to the client
-	hook.Add("preTTS", engine.ActiveGamemode(), function(ply, text)
+	hook.Add("preTTS", engine.ActiveGamemode(), function(ply, text, team)
         if GetConVar("tts_debug"):GetBool() then MsgC(Color( 255, 0, 255 ),"preTTS Hook Called\n") end
 
 		local table = {}
@@ -11,6 +11,7 @@ if SERVER then
 		table.ply = ply
 		table.text = text
 		table.global = tts.globalForce:GetBool()
+        table.team = team
 
 		if not IsValid(ply) then table.tts = false end
 
@@ -27,8 +28,11 @@ else
 		table.ply = serverTable.ply
 		table.text = serverTable.text
 		table.global = serverTable.global
+        table.team = serverTable.team
 
 		if not IsValid(serverTable.ply) then table.tts = false end
+
+        if table.ply:isplayer() and ( table.ply:IsCSpectating() not LocalPlayer():IsCSpectating() ) then table.tts = false end
 
 		return table
 	end)
