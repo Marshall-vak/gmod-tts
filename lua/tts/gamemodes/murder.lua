@@ -1,14 +1,9 @@
 if SERVER then
-	//Lots of debug :)
-	if GetConVar("tts_debug"):GetBool() then
-		MsgC(Color( 255, 0, 255 ),"Loaded sv_tts_murder.lua\n")
-	end
+	if GetConVar("tts_debug"):GetBool() then MsgC(Color( 255, 0, 255 ),"Loaded tts/gamemodes/" .. engine.ActiveGamemode() .. ".lua\n") end
 
 	//if the server says its ok then send it to the client
-	hook.Add("preTTS", "sandbox", function(ply, text)
-        if GetConVar("tts_debug"):GetBool() then
-            MsgC(Color( 255, 0, 255 ),"preTTS Hook Called\n")
-        end
+	hook.Add("preTTS", engine.ActiveGamemode(), function(ply, text)
+        if GetConVar("tts_debug"):GetBool() then MsgC(Color( 255, 0, 255 ),"preTTS Hook Called\n") end
 
 		local table = {}
 		
@@ -23,19 +18,17 @@ if SERVER then
 	end)
 else
 	//if the client says its ok then play it
-	hook.Add("postTTS", "sandbox", function(serverTable)
-        if GetConVar("tts_debug"):GetBool() then
-            MsgC(Color( 255, 0, 255 ),"postTTS Hook called\n")
-        end
+	hook.Add("postTTS", engine.ActiveGamemode(), function(serverTable)
+        if GetConVar("tts_debug"):GetBool() then MsgC(Color( 255, 0, 255 ),"postTTS Hook called\n") end
 
 		local table = {}
 		
-		table.tts = serverTable.tts
+		table.tts = true
 		table.ply = serverTable.ply
 		table.text = serverTable.text
 		table.global = serverTable.global
 
-		if not IsValid(ply) then table.tts = false end
+		if not IsValid(serverTable.ply) then table.tts = false end
 
 		return table
 	end)

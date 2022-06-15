@@ -13,8 +13,8 @@ tts.globalForce = CreateConVar( "tts_globalForce", 1, FCVAR_ARCHIVE, "Should the
 
 tts.enabled = CreateClientConVar( "tts_cl_enabled", 1, true, false, "Enable tts? (can be overwritten by the server)", 0, 1)
 tts.global = CreateClientConVar( "tts_cl_global", 0, true, false, "Does the tts play globally? (can be overwritten by the server)", 0, 1)
-tts.debug = CreateClientConVar( "tts_cl_debug", 0, true, false, "Enable pink console?", 0, 1)
-tts.volume = CreateClientConVar( "tts_cl_volume", 1, true, false, "Volume of the tts", 0, 1)
+tts.cl_debug = CreateClientConVar( "tts_cl_debug", 0, true, false, "Enable pink console?", 0, 1)
+tts.volume = CreateClientConVar( "tts_cl_volume", 1.00, true, false, "Volume of the tts", 0, 10)
 
 function funPrint(table)
     local l, c1, c2 = 0, Color(0, 195, 255):ToVector() , Color(255, 255, 28):ToVector()
@@ -39,46 +39,6 @@ function setContains(set, key)
 
     return set[key] ~= nil
 end
-
-if not SERVER then
-    hook.Add( "InitPostEntity", "tts_startup", function()
-        if not GetConVar("tts_allow_disable"):GetBool() then
-            if tts.debug:GetBool() then MsgC(Color( 255, 0, 255 ),"tts_allow_disable is enabled server side removing cl_enable") end
-    
-            concommand.Remove("tts_cl_enabled")
-        end
-    
-        funPrint([[Client TTS Loaded! Made by Marshall_vak]])
-        hook.Remove( "InitPostEntity", "tts_startup")
-    end)
-end
-
-tts.supportedGamemodes = {}
-
-local files, directories = file.Find( "tts/gamemodes", "LUA" )
-for k, v in pairs( files ) do
-    print(string.gsub( v, ".lua", "" ))
-    table.Add(tts.supportedGamemodes, string.gsub( v, ".lua", "" ))
-end
-
-//if the game mode is not supported then set as sandbox
-    if tts.supportedGamemodes[engine.ActiveGamemode()] then 
-        if tts.debug:GetBool() then 
-            MsgC(Color( 255, 0, 255 ),"Support set to " .. engine.ActiveGamemode() .. "\n")
-        end
-    
-        support = engine.ActiveGamemode()
-    else
-        if tts.debug:GetBool() then 
-            MsgC(Color( 255, 0, 255 ),"Gamemode not supported continuing with sandbox!\n")
-        end
-    
-        support = "sandbox"
-    end
-
-MsgC(Color( 255, 0, 255 ),"Starting TTS with " .. support .. " support!\n")
-include("tts/gamemodes/" .. support .. ".lua")
-if server then AddCSLuaFile("tts/gamemodes/" .. support .. ".lua") end
 
 
 //egg thanks shadowz ( Shadowz says Hi )

@@ -1,5 +1,4 @@
-AddCSLuaFile("tts/shared.lua")
-include("tts/shared.lua")
+include("sh_tts.lua")
 
 if not tts.enable:GetBool() then return end
 
@@ -34,8 +33,14 @@ funPrint(tts.logo)
 //create tts net
 util.AddNetworkString("tts")
 
-//https://wiki.facepunch.com/gmod/Global.CreateConVar
-//CreateConVar( string name, string value, number flags = FCVAR_NONE, string helptext, number min = nil, number max = nil )
+
+tts.support = engine.ActiveGamemode()
+if not file.Exists( "lua/tts/gamemodes/" .. tts.support .. ".lua" , "GAME" ) then tts.support = "sandbox" end
+    
+MsgC(Color( 255, 0, 255 ),"Starting TTS with " .. tts.support .. " support!\n")
+AddCSLuaFile("tts/gamemodes/" .. tts.support .. ".lua")
+include("gamemodes/" .. tts.support .. ".lua")
+SetGlobalString( "tts_support", tts.support )
 
 // Create help command. I hope you like this Color( 255, 0, 255 )
 local function help()
@@ -64,18 +69,16 @@ concommand.Add("tts_help", help)
 tts.blackList = {
     "http://",
     "https://",
-    "<emote=",
-    "nigga",
-    "nigger"
+    "<emote="
 }
 
-hook.Add("PlayerSay", "mba_tts", function(ply, text)
+hook.Add("PlayerSay", "mba_tts", function(ply, text, team)
     //Max length of api 1024
 	if string.len(text) > 1024 then
 		timer.Simple(0.1, function()
             if not IsValid(ply) then return end
 
-			ply:SendLua([[chat.AddText( "TTS: Mesasge is too long!" )]])
+			ply:SendLua([[chat.AddText(Color(255, 255, 255), "[", Color(255, 0, 255), "TTS", Color(255, 255, 255), "] TTS: Mesasge is too long!")]])
 		end)
 		return
 	end
@@ -94,9 +97,13 @@ hook.Add("PlayerSay", "mba_tts", function(ply, text)
         end
     end
 
-    local table = hook.Call( "preTTS", ply, text )
+    if GetConVar("tts_debug"):GetBool() then MsgC(Color( 255, 0, 255 ),"Calling hook with text: " .. text .. "\n") end
+
+    local table = hook.Run( "preTTS", ply, text, team )
 
     if not table.tts then return end
+
+    if GetConVar("tts_debug"):GetBool() then MsgC(Color( 255, 0, 255 ),"Sending net message\n") end
 
     net.Start("tts")
         net.WriteTable(table)
