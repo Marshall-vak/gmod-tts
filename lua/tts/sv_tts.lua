@@ -45,7 +45,7 @@ SetGlobalString( "tts_support", tts.support )
 // Create help command. I hope you like this Color( 255, 0, 255 )
 local function help()
 	funPrint([[
-Moon Base Alpha Made by Marshall_vak TTS Help:
+Moon Base Alpha Made TTS by Marshall_vak TTS Help:
 ---------------------------------- [ Server Convars ] --------------------------------
 [ tts_enable 	     | default: 1  | Enable the tts?    		             ]
 [ tts_admin_only     | default: 0  | Is tts admin only? 			     ]
@@ -57,6 +57,7 @@ Moon Base Alpha Made by Marshall_vak TTS Help:
 [ tts_globalForce    | default: 0  | Should the tts be global for all players?       ]
 ---------------------------------- [ Client Convars ] --------------------------------
 [ tts_cl_enabled     | default: 1  | Enable the tts client side?    		     ]
+[ tts_cl_volume  | default: 1  | Volume of the tts                                   ]
 [ tts_cl_global      | default: 0  | Play tts globaly?	          		     ]
 [ tts_cl_debug       | default: 0  | Debug?					     ]
 --------------------------------------------------------------------------------------
