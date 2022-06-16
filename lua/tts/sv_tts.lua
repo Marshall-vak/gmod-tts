@@ -24,7 +24,7 @@ Loaded TTS Version 2.0 Made by Marshall_vak
 ]]
 
 if tts.debug:GetBool() then 
-    MsgC(Color( 255, 0, 255 ),"TTS: current gamemode is: " .. engine.ActiveGamemode() .. "\n")
+    MsgC(Color( 255, 0, 255 ),"TTS: current gamemode is: " .. string.lower(engine.ActiveGamemode()) .. "\n")
 end
 
 //print big tts
@@ -34,7 +34,7 @@ funPrint(tts.logo)
 util.AddNetworkString("tts")
 
 
-tts.support = engine.ActiveGamemode()
+tts.support = string.lower(engine.ActiveGamemode())
 if not file.Exists( "lua/tts/gamemodes/" .. tts.support .. ".lua" , "GAME" ) then tts.support = "sandbox" end
     
 MsgC(Color( 255, 0, 255 ),"Starting TTS with " .. tts.support .. " support!\n")
@@ -69,7 +69,8 @@ concommand.Add("tts_help", help)
 tts.blackList = {
     "http://",
     "https://",
-    "<emote="
+    "<emote=",
+    "<color="
 }
 
 hook.Add("PlayerSay", "mba_tts", function(ply, text, team)

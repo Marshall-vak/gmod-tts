@@ -1,5 +1,10 @@
+local tempdisable = true
+
 include("sh_tts.lua")
-include("gamemodes/" .. GetGlobalString( "tts_support", tts.support ) .. ".lua")
+timer.Simple(0.1, function()
+    include("tts/gamemodes/" .. GetGlobalString( "tts_support", tts.support ) .. ".lua")
+    tempdisable = false
+end)
 
 local function help() funPrint([[Moon Base Alpha TTS Help:
 ---------------------------------- [ Client Convars ] --------------------------------
@@ -30,13 +35,13 @@ net.Receive("tts", function()
     if not GetConVar("tts_allow_disable"):GetBool() and not tts.enabled:GetBool() then return end
     local serverTable = net.ReadTable()
 
+    if tempdisable then return end
+
     local falseTable = {}
     falseTable.tts = false
     falseTable.text = "false table"
 
     local table = hook.Run( "postTTS", serverTable )// or falseTable
-
-    print(table.tts)
 
     if not table.tts then return else if tts.cl_debug:GetBool() then MsgC(Color( 255, 0, 255 ),"aaaaaa\n") end end
 
