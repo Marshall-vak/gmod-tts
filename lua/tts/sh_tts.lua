@@ -9,7 +9,7 @@ tts.sayName = CreateConVar( "tts_say_name", 0, FCVAR_ARCHIVE, "Include the playe
 tts.specDm = CreateConVar( "tts_specdm", 0, FCVAR_ARCHIVE, "Enable specDm support? (If you dont know what specDm is then just ignore it)")
 tts.birdsEyeView = CreateConVar( "tts_birds_eye_view", 0, FCVAR_ARCHIVE, "Enable birds eye view support? (If you dont know what Birds Eye View is then just ignore it)")
 tts.allowDisable = CreateConVar( "tts_allow_disable", 1, FCVAR_ARCHIVE, "Should clients be able to disable the tts?")
-tts.globalForce = CreateConVar( "tts_globalForce", 1, FCVAR_ARCHIVE, "Should the tts be global for all players?")
+tts.globalForce = CreateConVar( "tts_globalForce", 0, FCVAR_ARCHIVE, "Should the tts be global for all players?")
 
 tts.enabled = CreateClientConVar( "tts_cl_enabled", 1, true, false, "Enable tts? (can be overwritten by the server)", 0, 1)
 tts.global = CreateClientConVar( "tts_cl_global", 0, true, false, "Does the tts play globally? (can be overwritten by the server)", 0, 1)
