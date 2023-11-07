@@ -53,7 +53,7 @@ net.Receive("tts", function()
         
         if tts.cl_debug:GetBool() then MsgC(Color(255, 0, 255), "Playing sound globally.") end
 
-        sound.PlayURL("https://tts.cyzon.us/tts/?text=" .. table.text,"",function(station)
+        sound.PlayURL("https://tts.dinosite.net/tts/?text=" .. table.text,"",function(station)
             if ( IsValid( station ) ) then
                 station:Play()
                 station:SetVolume(tts.volume:GetFloat())
